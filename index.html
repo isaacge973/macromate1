@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MacroMate – Eat Well. Train Hard.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #faf8f3;
+      --warm-white: #ffffff;
+      --card: #ffffff;
+      --card2: #f7f5f0;
+      --border: #ede9e0;
+      --green: #2d6a4f;
+      --green-light: #e8f4ee;
+      --green-mid: #52b788;
+      --orange: #e07b39;
+      --orange-light: #fdf0e7;
+      --red: #c0392b;
+      --text: #1a1a1a;
+      --text2: #3d3d3d;
+      --muted: #888077;
+      --radius: 20px;
+      --shadow: 0 4px 24px rgba(0,0,0,0.06);
+      --shadow-hover: 0 12px 40px rgba(45,106,79,0.18);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ===================== HERO NAV ===================== */
+    .site-header {
+      background: var(--warm-white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+    }
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.5px;
+    }
+    .logo span { color: var(--green); }
+
+    .nav-pills {
+      display: flex;
+      gap: 4px;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 4px;
+    }
+    .nav-tab {
+      padding: 8px 20px;
+      border-radius: 99px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.84rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .nav-tab:hover { color: var(--green); }
+    .nav-tab.active {
+      background: var(--green);
+      color: #fff;
+      box-shadow: 0 2px 10px rgba(45,106,79,0.3);
+    }
+
+    /* ===================== HERO BANNER ===================== */
+    .hero {
+      display: none;
+      padding: 56px 40px 52px;
+    }
+    .hero.active { display: block; }
+    .hero-tracker  { background: linear-gradient(135deg, #1a3a2a 0%, #2d6a4f 55%, #52b788 100%); }
+    .hero-meals    { background: linear-gradient(135deg, #3d1f00 0%, #a0522d 50%, #e07b39 100%); }
+    .hero-workouts { background: linear-gradient(135deg, #0f1e2e 0%, #1a3a5c 55%, #2e6da4 100%); }
+    .hero-overlay  { display: none; }
+    .hero-content {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      background: rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.92);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 5px 14px;
+      border-radius: 99px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 12px;
+      max-width: 520px;
+    }
+    .hero-sub {
+      color: rgba(255,255,255,0.75);
+      font-size: 1rem;
+      max-width: 420px;
+      line-height: 1.65;
+    }
+
+    /* ===================== PAGES ===================== */
+    .page { display: none; }
+    .page.active { display: block; }
+    .page-body { max-width: 1100px; margin: 0 auto; padding: 40px 24px 80px; }
+
+    /* ===================== CARDS ===================== */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+    .card-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--green);
+      margin-bottom: 18px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+    }
+    .section-sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 28px; line-height: 1.5; }
+
+    /* ===================== TRACKER LAYOUT ===================== */
+    .tracker-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 720px) { .tracker-grid { grid-template-columns: 1fr; } }
+    .full-width { grid-column: 1 / -1; }
+
+    /* ===================== FORMS ===================== */
+    .form-group { margin-bottom: 16px; }
+    label {
+      display: block;
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--text2);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    input, select {
+      width: 100%;
+      background: var(--card2);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 11px 14px;
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.95rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    input::placeholder { color: #c4bfb5; }
+    input:focus, select:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(45,106,79,0.12);
+      background: #fff;
+    }
+    .macro-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+    .btn-primary {
+      width: 100%;
+      padding: 13px;
+      background: var(--green);
+      color: #fff;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+    }
+    .btn-primary:hover {
+      background: #245c42;
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-hover);
+    }
+    .btn-ghost {
+      width: 100%;
+      padding: 11px;
+      background: transparent;
+      color: var(--red);
+      border: 1.5px solid #f5c6c2;
+      border-radius: 12px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background 0.2s;
+    }
+    .btn-ghost:hover { background: #fef5f4; }
+
+    /* ===================== STAT BOXES ===================== */
+    .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+    @media (max-width: 480px) { .stats-row { grid-template-columns: repeat(2,1fr); } }
+    .stat-box {
+      background: var(--card2);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 12px;
+      text-align: center;
+    }
+    .stat-box.highlight { border-color: var(--green); background: var(--green-light); }
+    .stat-lbl { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); margin-bottom: 6px; }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--green); line-height: 1; }
+    .stat-num.amber { color: var(--orange); }
+    .stat-num.slate { color: var(--text2); }
+    .stat-num.teal { color: #2196a3; }
+    .stat-unit { font-size: 0.7rem; color: var(--muted); margin-top: 4px; }
+
+    /* ===================== PROGRESS BAR ===================== */
+    .progress-wrap { margin-top: 20px; }
+    .progress-labels { display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--muted); font-weight: 500; margin-bottom: 8px; }
+    .progress-track { background: var(--card2); border-radius: 99px; height: 8px; overflow: hidden; border: 1px solid var(--border); }
+    .progress-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--green), var(--green-mid)); width: 0%; transition: width 0.5s cubic-bezier(0.34,1.56,0.64,1); }
+    .progress-fill.over { background: linear-gradient(90deg, var(--red), #e07b39); }
+
+    /* ===================== GOAL INPUT ===================== */
+    .goal-input-wrap {
+      margin-top: 18px;
+      padding: 16px;
+      background: var(--card2);
+      border-radius: 14px;
+      border: 1.5px solid var(--border);
+    }
+    .goal-input-wrap .lbl { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 8px; }
+    .goal-input-row { display: flex; gap: 10px; align-items: center; }
+    .goal-input-row input { max-width: 120px; }
+    .goal-input-row span { font-size: 0.85rem; color: var(--muted); }
+
+    /* ===================== MEAL LOG ===================== */
+    .meal-log { display: flex; flex-direction: column; gap: 10px; max-height: 440px; overflow-y: auto; padding-right: 4px; }
+    .meal-log::-webkit-scrollbar { width: 4px; }
+    .meal-log::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    .meal-item {
+      background: var(--card2);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: slideIn 0.3s ease both;
+      transition: box-shadow 0.2s, border-color 0.2s;
+    }
+    .meal-item:hover { box-shadow: var(--shadow-hover); border-color: var(--green-mid); }
+    .meal-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--green-mid); flex-shrink: 0;
+    }
+    .meal-info { flex: 1; }
+    .meal-name { font-weight: 700; font-size: 0.95rem; margin-bottom: 5px; }
+    .meal-macros { display: flex; gap: 6px; flex-wrap: wrap; }
+    .macro-tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text2);
+      background: var(--warm-white);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2px 8px;
+    }
+    .meal-cals { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--green); white-space: nowrap; }
+    .delete-btn {
+      background: none; border: none; color: #ccc; cursor: pointer;
+      font-size: 1rem; padding: 4px 6px; border-radius: 6px;
+      transition: color 0.2s, background 0.2s; line-height: 1;
+    }
+    .delete-btn:hover { color: var(--red); background: #fef5f4; }
+    .empty-state { text-align: center; color: var(--muted); padding: 48px 0; font-size: 0.9rem; line-height: 1.7; }
+    .empty-state .icon { font-size: 3rem; margin-bottom: 12px; display: block; }
+
+    /* ===================== MEAL PLANS ===================== */
+    .filter-strip { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+    .filter-btn {
+      padding: 8px 20px; border-radius: 99px;
+      border: 1.5px solid var(--border); background: var(--card);
+      color: var(--muted); font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 600; font-size: 0.83rem; cursor: pointer; transition: all 0.2s;
+    }
+    .filter-btn:hover { color: var(--green); border-color: var(--green); }
+    .filter-btn.active { background: var(--green); color: #fff; border-color: var(--green); }
+
+    .plans-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 720px) { .plans-grid { grid-template-columns: 1fr; } }
+
+    .plan-card {
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .plan-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+
+    .plan-body { padding: 20px 22px 22px; }
+    .plan-stripe { height: 5px; width: 100%; }
+    .stripe-loss     { background: linear-gradient(90deg, #c05621, #e07b39); }
+    .stripe-muscle   { background: linear-gradient(90deg, #1565c0, #2196a3); }
+    .stripe-maintain { background: linear-gradient(90deg, #2d6a4f, #52b788); }
+    .stripe-general  { background: linear-gradient(90deg, #6a1b9a, #9c27b0); }
+    .plan-badge {
+      display: inline-block; font-size: 0.68rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.8px;
+      padding: 4px 12px; border-radius: 99px; margin-bottom: 10px;
+    }
+    .badge-loss    { background: #fdeee6; color: #c05621; }
+    .badge-muscle  { background: #e3f2fd; color: #1565c0; }
+    .badge-maintain{ background: var(--green-light); color: var(--green); }
+    .badge-general { background: #f3e5f5; color: #6a1b9a; }
+    .plan-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; }
+    .plan-meta { font-size: 0.78rem; color: var(--muted); margin-bottom: 16px; }
+
+    .plan-macros-row {
+      display: flex; gap: 0;
+      background: var(--card2); border-radius: 12px;
+      overflow: hidden; border: 1px solid var(--border);
+      margin-bottom: 18px;
+    }
+    .pmacro { flex: 1; text-align: center; padding: 10px 6px; border-right: 1px solid var(--border); }
+    .pmacro:last-child { border-right: none; }
+    .pmacro-val { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; }
+    .pmacro-lbl { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+
+    .meal-slot { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    .meal-slot:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+    .meal-slot-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--green); margin-bottom: 3px; }
+    .meal-slot-name { font-weight: 700; font-size: 0.9rem; margin-bottom: 3px; }
+    .meal-slot-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+
+    /* ===================== WORKOUT BUILDER ===================== */
+    .split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+    @media (max-width: 700px) { .split-grid { grid-template-columns: 1fr; } }
+
+    .split-option {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.22s;
+      box-shadow: var(--shadow);
+    }
+    .split-option:hover { border-color: var(--green-mid); box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+    .split-option.selected { border-color: var(--green); }
+    .split-option:hover
+
+    .split-body { padding: 18px 20px 20px; }
+    .split-accent { height: 6px; width: 100%; }
+    .split-accent-green  { background: linear-gradient(90deg, #2d6a4f, #52b788); }
+    .split-accent-blue   { background: linear-gradient(90deg, #1a3a5c, #2e6da4); }
+    .split-accent-red    { background: linear-gradient(90deg, #7b1d1d, #c0392b); }
+    .split-accent-amber  { background: linear-gradient(90deg, #7c4a00, #e07b39); }
+    .split-option-name { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.05rem; margin-bottom: 4px; }
+    .split-option-days { font-size: 0.75rem; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+    .split-option-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.55; margin-bottom: 10px; }
+    .split-tag {
+      display: inline-block; font-size: 0.68rem; font-weight: 700;
+      padding: 3px 10px; border-radius: 99px;
+    }
+    .tag-beginner     { background: var(--green-light); color: var(--green); }
+    .tag-intermediate { background: #fdeee6; color: #c05621; }
+    .tag-advanced     { background: #fce4ec; color: #ad1457; }
+
+    .workout-plan-display { display: none; }
+    .workout-plan-display.visible { display: block; }
+
+    .week-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 8px; margin-bottom: 24px; }
+    @media (max-width: 600px) { .week-grid { grid-template-columns: repeat(4,1fr); } }
+    .day-card { background: var(--card2); border: 1.5px solid var(--border); border-radius: 12px; padding: 12px 8px; text-align: center; }
+    .day-card.rest { opacity: 0.55; }
+    .day-card.active-day { border-color: var(--green); background: var(--green-light); }
+    .day-name { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 5px; }
+    .day-focus { font-size: 0.8rem; font-weight: 700; color: var(--text); }
+    .day-focus.rest-text { color: var(--muted); font-weight: 500; }
+
+    .note-box {
+      background: var(--green-light);
+      border: 1px solid #b7dfc9;
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 24px;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--text2);
+    }
+
+    .exercises-section { margin-bottom: 28px; }
+    .exercises-section h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; font-weight: 700;
+      padding-bottom: 10px; margin-bottom: 0;
+      border-bottom: 2px solid var(--green-light);
+    }
+    .exercise-table { width: 100%; border-collapse: collapse; }
+    .exercise-table th {
+      font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.8px; color: var(--muted); text-align: left;
+      padding: 10px 14px 8px;
+    }
+    .exercise-table td { padding: 11px 14px; font-size: 0.87rem; border-top: 1px solid var(--border); }
+    .exercise-table tr:hover td { background: var(--card2); }
+    .ex-name { font-weight: 700; }
+    .ex-muscle { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+    .sets-badge {
+      display: inline-block; background: var(--green-light); color: var(--green);
+      font-weight: 700; font-size: 0.8rem; padding: 3px 12px; border-radius: 99px;
+    }
+    .reps-badge {
+      display: inline-block; background: var(--card2); color: var(--text2);
+      font-size: 0.8rem; padding: 3px 12px; border-radius: 99px;
+      border: 1px solid var(--border);
+    }
+
+    /* ===================== PRINCIPLES ===================== */
+    .principles-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 28px; }
+    @media (max-width: 600px) { .principles-grid { grid-template-columns: 1fr; } }
+    .principle-card {
+      background: var(--card2); border: 1.5px solid var(--border);
+      border-radius: 14px; padding: 16px;
+    }
+    .principle-card strong {
+      display: block; font-size: 0.72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.8px; color: var(--green); margin-bottom: 6px;
+    }
+    .principle-card p { font-size: 0.84rem; line-height: 1.6; color: var(--text2); }
+
+    /* ===================== DISCLAIMER ===================== */
+    .disclaimer {
+      text-align: center; font-size: 0.76rem; color: var(--muted);
+      margin-top: 28px; padding: 16px 20px;
+      border: 1px solid var(--border); border-radius: 14px;
+      background: var(--card); line-height: 1.7;
+    }
+
+    /* ===================== TOAST ===================== */
+    #toast {
+      position: fixed; bottom: 28px; left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--green); color: #fff;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;
+      font-size: 0.88rem; padding: 12px 26px; border-radius: 99px;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+      z-index: 999; pointer-events: none;
+      box-shadow: 0 8px 28px rgba(45,106,79,0.4);
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* ===================== ANIMATIONS ===================== */
+    @keyframes slideIn  { from { opacity:0; transform:translateX(-10px); } to { opacity:1; transform:translateX(0); } }
+    @keyframes fadeUp   { from { opacity:0; transform:translateY(14px);  } to { opacity:1; transform:translateY(0); } }
+
+    .fade-up { animation: fadeUp 0.5s ease both; }
+    .fade-up-2 { animation: fadeUp 0.5s ease 0.1s both; }
+    .fade-up-3 { animation: fadeUp 0.5s ease 0.2s both; }
+
+    @media (max-width: 600px) {
+      .header-inner { padding: 0 16px; }
+      .nav-pills { gap: 2px; }
+      .nav-tab { padding: 7px 14px; font-size: 0.78rem; }
+      .hero { padding: 40px 20px 36px; }
+      .hero-title { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== STICKY NAV ===== -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo">Macro<span>Mate</span></div>
+    <nav class="nav-pills">
+      <button class="nav-tab active" onclick="switchPage('tracker', this)">🍽 Tracker</button>
+      <button class="nav-tab" onclick="switchPage('mealplans', this)">🥗 Meal Plans</button>
+      <button class="nav-tab" onclick="switchPage('workout', this)">💪 Workouts</button>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== PAGE 1: TRACKER ===== -->
+<div id="page-tracker" class="page active">
+
+  <div class="hero hero-tracker active">
+    <div class="hero-content">
+      <span class="hero-eyebrow">Daily Tracker</span>
+      <h1 class="hero-title">Log your meals.<br/>Own your day.</h1>
+      <p class="hero-sub">Track calories and macros in seconds. Know exactly what you're fueling your body with.</p>
+    </div>
+  </div>
+
+  <div class="page-body">
+    <div class="tracker-grid">
+
+      <div class="card fade-up">
+        <div class="card-label">➕ Log a Meal</div>
+        <div class="form-group">
+          <label>Meal Name</label>
+          <input type="text" id="mealName" placeholder="e.g. Grilled Chicken & Rice" />
+        </div>
+        <div class="form-group">
+          <label>Calories</label>
+          <input type="number" id="mealCals" placeholder="e.g. 520" min="0" />
+        </div>
+        <div class="form-group">
+          <label>Macros (grams)</label>
+          <div class="macro-row">
+            <input type="number" id="mealProtein" placeholder="Protein" min="0" />
+            <input type="number" id="mealCarbs"   placeholder="Carbs"   min="0" />
+            <input type="number" id="mealFat"     placeholder="Fat"     min="0" />
+          </div>
+        </div>
+        <button class="btn-primary" onclick="addMeal()">+ Log This Meal</button>
+        <button class="btn-ghost" onclick="clearAll()">Clear All Meals</button>
+      </div>
+
+      <div class="card fade-up-2">
+        <div class="card-label">📊 Today's Totals</div>
+        <div class="stats-row">
+          <div class="stat-box highlight">
+            <div class="stat-lbl">Calories</div>
+            <div class="stat-num" id="totalCals">0</div>
+            <div class="stat-unit">kcal</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-lbl">Protein</div>
+            <div class="stat-num teal" id="totalProtein">0</div>
+            <div class="stat-unit">grams</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-lbl">Carbs</div>
+            <div class="stat-num amber" id="totalCarbs">0</div>
+            <div class="stat-unit">grams</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-lbl">Fat</div>
+            <div class="stat-num slate" id="totalFat">0</div>
+            <div class="stat-unit">grams</div>
+          </div>
+        </div>
+
+        <div class="progress-wrap">
+          <div class="progress-labels">
+            <span>Calorie Goal</span>
+            <span id="goalText">0 / 2000 kcal</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="goalBar"></div>
+          </div>
+        </div>
+
+        <div class="goal-input-wrap">
+          <div class="lbl">Set Your Daily Goal</div>
+          <div class="goal-input-row">
+            <input type="number" id="calorieGoal" placeholder="2000" min="0" oninput="updateSummary()" />
+            <span>kcal / day</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card full-width fade-up-3">
+        <div class="card-label">🍽 Today's Meal Log</div>
+        <div class="meal-log" id="mealLog">
+          <div class="empty-state">
+            <span class="icon">🥗</span>
+            No meals logged yet — add your first one above!
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGE 2: MEAL PLANS ===== -->
+<div id="page-mealplans" class="page">
+
+  <div class="hero hero-meals">
+    <div class="hero-content">
+      <span class="hero-eyebrow">Meal Plans</span>
+      <h1 class="hero-title">Real food for<br/>real goals.</h1>
+      <p class="hero-sub">Sample full-day meal plans built on USDA and ISSN nutritional guidelines.</p>
+    </div>
+  </div>
+
+  <div class="page-body">
+    <div class="filter-strip">
+      <button class="filter-btn active" onclick="filterPlans('all', this)">All Plans</button>
+      <button class="filter-btn" onclick="filterPlans('loss', this)">🔥 Weight Loss</button>
+      <button class="filter-btn" onclick="filterPlans('muscle', this)">💪 Muscle Gain</button>
+      <button class="filter-btn" onclick="filterPlans('maintain', this)">⚖️ Maintenance</button>
+      <button class="filter-btn" onclick="filterPlans('general', this)">🌿 General Health</button>
+    </div>
+
+    <div class="plans-grid" id="plansGrid"></div>
+
+    <div class="disclaimer">
+      ⚠️ <strong>Sources:</strong> Meal plan macros based on <strong>USDA Dietary Guidelines 2020–2025</strong>, <strong>ACSM</strong> nutrition position stands, and <strong>ISSN</strong> guidelines. Calorie levels shown are examples — your actual needs vary. Consult a registered dietitian for a personalized plan.
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGE 3: WORKOUT BUILDER ===== -->
+<div id="page-workout" class="page">
+
+  <div class="hero hero-workouts">
+    <div class="hero-content">
+      <span class="hero-eyebrow">Workout Builder</span>
+      <h1 class="hero-title">Train smarter.<br/>Not just harder.</h1>
+      <p class="hero-sub">Evidence-based training splits built on ACSM and NSCA exercise science guidelines.</p>
+    </div>
+  </div>
+
+  <div class="page-body">
+
+    <div class="card fade-up" style="margin-bottom:28px;">
+      <div class="card-label">📐 Training Principles — ACSM & NSCA</div>
+      <div class="principles-grid">
+        <div class="principle-card"><strong>Rest Between Sessions</strong><p>The ACSM recommends at least <strong>48 hours</strong> of rest between training the same muscle group to allow recovery and adaptation.</p></div>
+        <div class="principle-card"><strong>Training Frequency</strong><p>Research shows training each muscle <strong>2× per week</strong> produces greater hypertrophy than 1× per week when volume is equal. (Schoenfeld et al., 2016)</p></div>
+        <div class="principle-card"><strong>Sets & Volume</strong><p>The NSCA recommends <strong>3–6 sets per exercise</strong> for hypertrophy. Weekly volume of <strong>10–20 sets per muscle group</strong> is the evidence-based target.</p></div>
+        <div class="principle-card"><strong>Progressive Overload</strong><p>Gradually increase weight, reps, or sets over time. This is the #1 driver of strength and muscle gains per NSCA and ACSM position statements.</p></div>
+        <div class="principle-card"><strong>Rep Ranges</strong><p>Hypertrophy: <strong>6–12 reps</strong>. Strength: <strong>1–6 reps</strong>. Endurance: <strong>15+ reps</strong>. (NSCA Essentials of Strength Training)</p></div>
+        <div class="principle-card"><strong>Rest Between Sets</strong><p>For hypertrophy: <strong>60–90 seconds</strong>. For strength: <strong>2–5 minutes</strong>. Shorter rest keeps metabolic stress high; longer maximizes load.</p></div>
+      </div>
+    </div>
+
+    <div class="card-label" style="margin-bottom:14px;">🗂 Choose Your Training Split</div>
+    <div class="split-grid">
+
+      <div class="split-option" onclick="selectSplit('fullbody')">
+        <div class="split-accent split-accent-green"></div>
+        <div class="split-body">
+          <div class="split-option-name">Full Body</div>
+          <div class="split-option-days">3 Days / Week</div>
+          <div class="split-option-desc">Train all major muscle groups each session. Best for beginners or those with limited time. Each muscle stimulated 3× per week.</div>
+          <span class="split-tag tag-beginner">Best for Beginners</span>
+        </div>
+      </div>
+
+      <div class="split-option" onclick="selectSplit('upperlower')">
+        <div class="split-accent split-accent-blue"></div>
+        <div class="split-body">
+          <div class="split-option-name">Upper / Lower</div>
+          <div class="split-option-days">4 Days / Week</div>
+          <div class="split-option-desc">Alternate upper and lower body days. Highly research-backed — hits each muscle 2× per week with excellent balance of frequency and recovery.</div>
+          <span class="split-tag tag-intermediate">Intermediate</span>
+        </div>
+      </div>
+
+      <div class="split-option" onclick="selectSplit('ppl')">
+        <div class="split-accent split-accent-red"></div>
+        <div class="split-body">
+          <div class="split-option-name">Push / Pull / Legs</div>
+          <div class="split-option-days">6 Days / Week</div>
+          <div class="split-option-desc">Push, Pull, Legs — run the cycle twice per week. High volume approach that hits each muscle group 2× weekly. Popular and science-supported.</div>
+          <span class="split-tag tag-advanced">Advanced</span>
+        </div>
+      </div>
+
+      <div class="split-option" onclick="selectSplit('brosplit')">
+        <div class="split-accent split-accent-amber"></div>
+        <div class="split-body">
+          <div class="split-option-name">Body Part Split</div>
+          <div class="split-option-days">5 Days / Week</div>
+          <div class="split-option-desc">One muscle group per day with high per-session volume. Classic bodybuilding approach — still effective with proper programming.</div>
+          <span class="split-tag tag-intermediate">Intermediate</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="workout-plan-display" id="workoutDisplay"></div>
+
+    <div class="disclaimer">
+      ⚠️ <strong>Sources:</strong> Based on <strong>NSCA Essentials of Strength Training and Conditioning</strong>, <strong>ACSM Guidelines for Exercise Testing and Prescription</strong>, and Schoenfeld et al. (2016) meta-analysis on training frequency. Always warm up and use correct form. Consult a certified trainer (NSCA-CSCS or ACSM-CPT) before starting a new program.
+    </div>
+  </div>
+</div>
+
+<div id="toast">✅ Done!</div>
+
+<script>
+
+  // ===========================================================
+  // PAGE NAVIGATION
+  // Hides all pages, then shows only the one the user clicked
+  // ===========================================================
+  function switchPage(pageName, clickedButton) {
+    // Hide every page
+    var allPages = document.querySelectorAll('.page');
+    for (var i = 0; i < allPages.length; i++) {
+      allPages[i].classList.remove('active');
+    }
+
+    // Remove the highlight from every nav button
+    var allTabs = document.querySelectorAll('.nav-tab');
+    for (var i = 0; i < allTabs.length; i++) {
+      allTabs[i].classList.remove('active');
+    }
+
+    // Show the correct page and highlight the clicked button
+    document.getElementById('page-' + pageName).classList.add('active');
+    clickedButton.classList.add('active');
+
+    // Show the hero banner for this page
+    var allHeroes = document.querySelectorAll('.hero');
+    for (var i = 0; i < allHeroes.length; i++) {
+      allHeroes[i].classList.remove('active');
+    }
+    var hero = document.querySelector('#page-' + pageName + ' .hero');
+    if (hero) { hero.classList.add('active'); }
+  }
+
+
+  // ===========================================================
+  // MEAL TRACKER
+  // meals is a list (array) that stores every meal the user logs
+  // Each meal is an object with: id, name, cals, protein, carbs, fat
+  // ===========================================================
+  var meals = [];  // This is the main list used throughout the tracker
+
+
+  // PROCEDURE: addMeal
+  // Reads the form inputs, validates them, creates a meal object,
+  // adds it to the meals list, then updates the display
+  function addMeal() {
+    // Read each input field
+    var name    = document.getElementById("mealName").value.trim();
+    var cals    = parseInt(document.getElementById("mealCals").value) || 0;
+    var protein = parseInt(document.getElementById("mealProtein").value) || 0;
+    var carbs   = parseInt(document.getElementById("mealCarbs").value) || 0;
+    var fat     = parseInt(document.getElementById("mealFat").value) || 0;
+
+    // Validate — don't add if name or calories are missing
+    if (name === "" || cals <= 0) {
+      alert("Please enter a meal name and calories.");
+      return;
+    }
+
+    // Create a meal object and add it to the list
+    var newMeal = {
+      id: Date.now(),   // unique ID based on current timestamp
+      name: name,
+      cals: cals,
+      protein: protein,
+      carbs: carbs,
+      fat: fat
+    };
+    meals.push(newMeal);  // AP CSP: adding element to a list
+
+    // Update the screen
+    clearForm();
+    renderLog();
+    updateSummary();
+    showToast("✅ " + name + " logged!");
+  }
+
+
+  // PROCEDURE: calculateTotals
+  // Loops through the meals list and adds up all the numbers
+  // Returns an object with the total cals, protein, carbs, and fat
+  function calculateTotals() {
+    var totalCals    = 0;
+    var totalProtein = 0;
+    var totalCarbs   = 0;
+    var totalFat     = 0;
+
+    // Iteration: go through every meal in the list
+    for (var i = 0; i < meals.length; i++) {
+      totalCals    = totalCals    + meals[i].cals;
+      totalProtein = totalProtein + meals[i].protein;
+      totalCarbs   = totalCarbs   + meals[i].carbs;
+      totalFat     = totalFat     + meals[i].fat;
+    }
+
+    return {
+      cals: totalCals,
+      protein: totalProtein,
+      carbs: totalCarbs,
+      fat: totalFat
+    };
+  }
+
+
+  // PROCEDURE: updateSummary
+  // Recalculates totals and updates the daily summary display
+  function updateSummary() {
+    var totals = calculateTotals();
+    var calorieGoal = parseInt(document.getElementById("calorieGoal").value) || 2000;
+
+    // Update the 4 stat boxes
+    document.getElementById("totalCals").textContent    = totals.cals;
+    document.getElementById("totalProtein").textContent = totals.protein;
+    document.getElementById("totalCarbs").textContent   = totals.carbs;
+    document.getElementById("totalFat").textContent     = totals.fat;
+
+    // Calculate what percent of the goal has been reached (max 100%)
+    var percentDone = (totals.cals / calorieGoal) * 100;
+    if (percentDone > 100) {
+      percentDone = 100;
+    }
+
+    // Update the progress bar
+    var bar = document.getElementById("goalBar");
+    bar.style.width = percentDone + "%";
+
+    // Turn bar red if over the goal
+    if (totals.cals > calorieGoal) {
+      bar.classList.add("over");
+    } else {
+      bar.classList.remove("over");
+    }
+
+    // Update the text label under the bar
+    document.getElementById("goalText").textContent = totals.cals + " / " + calorieGoal + " kcal";
+  }
+
+
+  // PROCEDURE: renderLog
+  // Clears the meal log on screen and redraws it from the meals list
+  function renderLog() {
+    var logContainer = document.getElementById("mealLog");
+
+    // If no meals, show the empty state message
+    if (meals.length === 0) {
+      logContainer.innerHTML = '<div class="empty-state"><span class="icon">🥗</span>No meals logged yet — add your first one above!</div>';
+      return;
+    }
+
+    // Clear the current display
+    logContainer.innerHTML = "";
+
+    // Iteration: loop through each meal in the list and create an HTML card
+    for (var i = 0; i < meals.length; i++) {
+      var meal = meals[i];
+
+      var card = document.createElement("div");
+      card.className = "meal-item";
+      card.innerHTML =
+        '<div class="meal-dot"></div>' +
+        '<div class="meal-info">' +
+          '<div class="meal-name">' + meal.name + '</div>' +
+          '<div class="meal-macros">' +
+            '<span class="macro-tag">🥩 ' + meal.protein + 'g protein</span>' +
+            '<span class="macro-tag">🍞 ' + meal.carbs + 'g carbs</span>' +
+            '<span class="macro-tag">🧈 ' + meal.fat + 'g fat</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="meal-cals">' + meal.cals + ' kcal</div>' +
+        '<button class="delete-btn" onclick="deleteMeal(' + meal.id + ')">✕</button>';
+
+      logContainer.appendChild(card);
+    }
+  }
+
+
+  // PROCEDURE: deleteMeal
+  // Finds the meal with the matching id and removes it from the list
+  function deleteMeal(id) {
+    // Iteration: search the list for the meal with this id
+    for (var i = 0; i < meals.length; i++) {
+      if (meals[i].id === id) {
+        meals.splice(i, 1);  // Remove 1 item at index i
+        break;
+      }
+    }
+    renderLog();
+    updateSummary();
+  }
+
+
+  // Clears all meals after confirming with the user
+  function clearAll() {
+    if (meals.length === 0) {
+      return;
+    }
+    var confirmed = confirm("Clear all logged meals?");
+    if (confirmed) {
+      meals = [];  // Reset the list to empty
+      renderLog();
+      updateSummary();
+    }
+  }
+
+
+  // Clears all the input fields in the Add Meal form
+  function clearForm() {
+    document.getElementById("mealName").value    = "";
+    document.getElementById("mealCals").value    = "";
+    document.getElementById("mealProtein").value = "";
+    document.getElementById("mealCarbs").value   = "";
+    document.getElementById("mealFat").value     = "";
+  }
+
+
+  // Shows a short pop-up message at the bottom of the screen
+  function showToast(message) {
+    var toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.classList.add("show");
+
+    // Hide it again after 2.4 seconds
+    setTimeout(function() {
+      toast.classList.remove("show");
+    }, 2400);
+  }
+
+
+  // ===========================================================
+  // MEAL PLANS DATA (AP CSP: List of objects)
+  // Sources: USDA Dietary Guidelines 2020-2025, ISSN, ACSM
+  // ===========================================================
+  var mealPlans = [
+    {
+      goal: 'loss', badge: 'badge-loss', badgeLabel: '🔥 Weight Loss',
+      title: '1,500 kcal Fat Loss Day', meta: '~1,500 kcal · High Protein · Moderate Carb',
+      cals: 1500, protein: 150, carbs: 130, fat: 40,
+      meals: [
+        { slot: 'Breakfast', name: 'Greek Yogurt Parfait', desc: 'Non-fat Greek yogurt (170g) + ½ cup mixed berries + 1 tbsp chia seeds. ~25g protein, 22g carbs.' },
+        { slot: 'Morning Snack', name: 'Hard-Boiled Eggs & Apple', desc: '2 hard-boiled eggs + 1 medium apple. ~12g protein, 25g carbs, simple and portable.' },
+        { slot: 'Lunch', name: 'Chicken & Quinoa Bowl', desc: '4 oz grilled chicken breast + ½ cup quinoa + 2 cups mixed greens + lemon dressing. ~40g protein.' },
+        { slot: 'Afternoon Snack', name: 'Cottage Cheese & Cucumber', desc: '½ cup low-fat cottage cheese + sliced cucumber. ~14g protein, only ~100 kcal.' },
+        { slot: 'Dinner', name: 'Baked Salmon & Vegetables', desc: '5 oz baked salmon + 1 cup roasted broccoli + ½ cup brown rice. ~45g protein, healthy omega-3 fats.' }
+      ]
+    },
+    {
+      goal: 'loss', badge: 'badge-loss', badgeLabel: '🔥 Weight Loss',
+      title: '1,800 kcal Moderate Deficit', meta: '~1,800 kcal · Balanced · Higher Volume',
+      cals: 1800, protein: 160, carbs: 180, fat: 50,
+      meals: [
+        { slot: 'Breakfast', name: 'Egg White Omelette + Oats', desc: '4 egg whites + 1 whole egg omelette with spinach + ½ cup oatmeal with cinnamon. ~35g protein.' },
+        { slot: 'Morning Snack', name: 'Protein Shake + Banana', desc: '1 scoop whey protein in water + 1 banana. Quick, ~30g protein, replenishes glycogen.' },
+        { slot: 'Lunch', name: 'Turkey & Veggie Wrap', desc: '4 oz lean ground turkey + whole wheat tortilla + lettuce, tomato, avocado (¼). ~38g protein.' },
+        { slot: 'Afternoon Snack', name: 'Rice Cakes + Almond Butter', desc: '2 rice cakes + 1 tbsp almond butter + ½ cup berries. Fiber + healthy fat combo.' },
+        { slot: 'Dinner', name: 'Lean Beef Stir-Fry', desc: '4 oz 93% lean ground beef + mixed vegetables + ½ cup brown rice + low-sodium soy sauce. ~40g protein.' }
+      ]
+    },
+    {
+      goal: 'muscle', badge: 'badge-muscle', badgeLabel: '💪 Muscle Gain',
+      title: '2,800 kcal Lean Bulk', meta: '~2,800 kcal · Very High Protein · High Carb',
+      cals: 2800, protein: 200, carbs: 310, fat: 75,
+      meals: [
+        { slot: 'Breakfast', name: 'Muscle-Building Omelette', desc: '4 whole eggs + 4 egg whites + 2 slices whole grain toast + 1 cup orange juice. ~55g protein, 60g carbs.' },
+        { slot: 'Morning Snack', name: 'Mass Gainer Shake', desc: '2 scoops whey protein + 1 cup whole milk + 1 banana + 2 tbsp peanut butter. ~60g protein, 50g carbs.' },
+        { slot: 'Lunch', name: 'Chicken Rice Bowl', desc: '8 oz chicken breast + 1.5 cups white rice + steamed broccoli + olive oil drizzle. ~70g protein, 90g carbs.' },
+        { slot: 'Pre-Workout Snack', name: 'Greek Yogurt & Granola', desc: 'Full-fat Greek yogurt (200g) + ½ cup granola. ~25g protein, fast carbs for energy.' },
+        { slot: 'Dinner', name: 'Salmon + Sweet Potato', desc: '7 oz salmon + 1 large sweet potato + asparagus. ~55g protein, omega-3s for recovery and joint health.' }
+      ]
+    },
+    {
+      goal: 'muscle', badge: 'badge-muscle', badgeLabel: '💪 Muscle Gain',
+      title: '3,200 kcal Aggressive Bulk', meta: '~3,200 kcal · Maximum Protein · Very High Carb',
+      cals: 3200, protein: 230, carbs: 370, fat: 85,
+      meals: [
+        { slot: 'Breakfast', name: 'Big Breakfast Bowl', desc: '5 eggs scrambled + 3 slices whole grain toast + 1 cup milk + 1 banana. ~55g protein, 80g carbs.' },
+        { slot: 'Morning Snack', name: 'PB&J + Protein Shake', desc: '2 peanut butter & banana sandwiches on whole wheat + whey shake. ~50g protein, 100g carbs.' },
+        { slot: 'Lunch', name: 'Beef & Rice Mega Bowl', desc: '8 oz 90% lean ground beef + 2 cups rice + veggies + cheese. ~70g protein, 110g carbs.' },
+        { slot: 'Pre-Workout', name: 'Pasta & Chicken', desc: '2 cups pasta + 6 oz chicken breast + marinara sauce. High carbs fuel an intense training session. ~65g protein.' },
+        { slot: 'Dinner', name: 'Steak + Potatoes', desc: '8 oz sirloin steak + 2 medium baked potatoes + side salad with olive oil. ~70g protein, loaded with iron.' }
+      ]
+    },
+    {
+      goal: 'maintain', badge: 'badge-maintain', badgeLabel: '⚖️ Maintenance',
+      title: '2,200 kcal Maintenance Plan', meta: '~2,200 kcal · Balanced Macros · USDA Guidelines',
+      cals: 2200, protein: 140, carbs: 250, fat: 70,
+      meals: [
+        { slot: 'Breakfast', name: 'Balanced Veggie Omelette', desc: '3 eggs + peppers, onions, spinach + 2 slices whole wheat toast + 1 piece of fruit. ~30g protein.' },
+        { slot: 'Morning Snack', name: 'Mixed Nuts & Cheese', desc: '1 oz mixed nuts + 1 oz cheddar cheese + apple slices. Healthy fat, protein, and fiber combo.' },
+        { slot: 'Lunch', name: 'Mediterranean Grain Bowl', desc: 'Farro + chickpeas + cucumber, tomato, olives + feta + olive oil dressing.' },
+        { slot: 'Afternoon Snack', name: 'Hummus & Veggies', desc: '¼ cup hummus + carrot sticks, celery, bell peppers. Plant-based protein + fiber-rich vegetables.' },
+        { slot: 'Dinner', name: 'Baked Chicken & Quinoa', desc: '5 oz baked chicken breast + 1 cup quinoa + roasted Brussels sprouts. Complete protein, balanced macros.' }
+      ]
+    },
+    {
+      goal: 'general', badge: 'badge-general', badgeLabel: '🌿 General Health',
+      title: 'Mediterranean-Style Day', meta: '~2,000 kcal · Heart-Healthy · Anti-Inflammatory',
+      cals: 2000, protein: 110, carbs: 240, fat: 70,
+      meals: [
+        { slot: 'Breakfast', name: 'Overnight Oats', desc: '½ cup rolled oats + almond milk + chia seeds + berries + drizzle of honey. High fiber, antioxidants, heart-healthy.' },
+        { slot: 'Morning Snack', name: 'Walnuts & Fresh Fruit', desc: '1 oz walnuts + 1 orange. Walnuts are rich in omega-3 fatty acids (American Heart Association).' },
+        { slot: 'Lunch', name: 'Lentil Soup + Whole Grain Bread', desc: 'Lentil vegetable soup + 2 slices whole grain bread. Excellent plant protein, iron, and fiber.' },
+        { slot: 'Afternoon Snack', name: 'Greek Yogurt + Honey', desc: 'Plain Greek yogurt (150g) + 1 tsp honey + sliced almonds. Probiotic benefits + calcium + protein.' },
+        { slot: 'Dinner', name: 'Grilled Fish + Vegetables', desc: '5 oz grilled tilapia + roasted Mediterranean vegetables + olive oil + lemon. AHA-recommended.' }
+      ]
+    },
+    {
+      goal: 'general', badge: 'badge-general', badgeLabel: '🌿 General Health',
+      title: 'Plant-Based Power Day', meta: '~1,900 kcal · Plant-Forward · High Fiber',
+      cals: 1900, protein: 95, carbs: 260, fat: 60,
+      meals: [
+        { slot: 'Breakfast', name: 'Tofu Scramble + Toast', desc: 'Scrambled firm tofu + turmeric + spinach + 2 slices whole grain toast + avocado. ~25g plant protein.' },
+        { slot: 'Morning Snack', name: 'Edamame & Fruit', desc: '½ cup shelled edamame + 1 pear. Edamame provides complete plant protein with all essential amino acids.' },
+        { slot: 'Lunch', name: 'Black Bean Buddha Bowl', desc: 'Black beans + brown rice + roasted veggies + tahini dressing + pumpkin seeds. ~30g protein, very high fiber.' },
+        { slot: 'Afternoon Snack', name: 'Almond Butter + Apple', desc: '2 tbsp almond butter + 1 large apple. Healthy fats, fiber, and natural sugars for steady energy.' },
+        { slot: 'Dinner', name: 'Chickpea Curry + Rice', desc: 'Chickpea and vegetable curry + 1 cup brown rice. Chickpeas are an excellent plant-based protein and iron source.' }
+      ]
+    }
+  ];
+
+  // Tracks which filter button is currently selected
+  var currentFilter = 'all';
+
+
+  // PROCEDURE: filterPlans
+  // Updates which goal filter is active, then re-renders the plans
+  function filterPlans(filter, clickedButton) {
+    currentFilter = filter;
+
+    // Remove active highlight from all filter buttons
+    var allFilterBtns = document.querySelectorAll('.filter-btn');
+    for (var i = 0; i < allFilterBtns.length; i++) {
+      allFilterBtns[i].classList.remove('active');
+    }
+
+    // Highlight the button that was clicked
+    clickedButton.classList.add('active');
+
+    // Re-render the plans with the new filter
+    renderPlans();
+  }
+
+
+  // PROCEDURE: renderPlans
+  // Loops through the mealPlans list and builds the HTML cards.
+  // Uses selection to skip plans that don't match the current filter.
+  function renderPlans() {
+    var grid = document.getElementById('plansGrid');
+    var html = '';
+
+    // Iteration: go through every plan in the mealPlans list
+    for (var i = 0; i < mealPlans.length; i++) {
+      var plan = mealPlans[i];
+
+      // Selection: skip this plan if it doesn't match the current filter
+      if (currentFilter !== 'all' && plan.goal !== currentFilter) {
+        continue;
+      }
+
+      // Build the inner meals HTML for this plan
+      var mealsHTML = '';
+      for (var j = 0; j < plan.meals.length; j++) {
+        var meal = plan.meals[j];
+        mealsHTML = mealsHTML +
+          '<div class="meal-slot">' +
+            '<div class="meal-slot-label">' + meal.slot + '</div>' +
+            '<div class="meal-slot-name">' + meal.name + '</div>' +
+            '<div class="meal-slot-desc">' + meal.desc + '</div>' +
+          '</div>';
+      }
+
+      // Build the full plan card HTML with a colored top stripe
+      html = html +
+        '<div class="plan-card">' +
+          '<div class="plan-stripe stripe-' + plan.goal + '"></div>' +
+          '<div class="plan-body">' +
+            '<span class="plan-badge ' + plan.badge + '">' + plan.badgeLabel + '</span>' +
+            '<div class="plan-title">' + plan.title + '</div>' +
+            '<div class="plan-meta">' + plan.meta + '</div>' +
+            '<div class="plan-macros-row">' +
+              '<div class="pmacro"><div class="pmacro-val" style="color:var(--green)">' + plan.cals + '</div><div class="pmacro-lbl">Calories</div></div>' +
+              '<div class="pmacro"><div class="pmacro-val" style="color:#2196a3">' + plan.protein + 'g</div><div class="pmacro-lbl">Protein</div></div>' +
+              '<div class="pmacro"><div class="pmacro-val" style="color:var(--orange)">' + plan.carbs + 'g</div><div class="pmacro-lbl">Carbs</div></div>' +
+              '<div class="pmacro"><div class="pmacro-val" style="color:#6a1b9a">' + plan.fat + 'g</div><div class="pmacro-lbl">Fat</div></div>' +
+            '</div>' +
+            mealsHTML +
+          '</div>' +
+        '</div>';
+    }
+
+    grid.innerHTML = html;
+  }
+
+
+  // ===========================================================
+  // WORKOUT BUILDER DATA (AP CSP: List of objects)
+  // Sources: NSCA, ACSM, Schoenfeld et al. 2016
+  // ===========================================================
+  var workoutSplits = {
+    fullbody: {
+      name: 'Full Body Split', days: '3 Days / Week',
+      note: 'Based on ACSM beginner guidelines. Train Mon / Wed / Fri. Rest at least 48 hours between sessions (ACSM recommendation). Each session hits all major muscle groups.',
+      schedule: [
+        {day:'Mon', focus:'Full Body', active:true},
+        {day:'Tue', focus:'Rest', active:false},
+        {day:'Wed', focus:'Full Body', active:true},
+        {day:'Thu', focus:'Rest', active:false},
+        {day:'Fri', focus:'Full Body', active:true},
+        {day:'Sat', focus:'Rest', active:false},
+        {day:'Sun', focus:'Rest', active:false}
+      ],
+      workouts: [
+        {
+          title: 'Full Body Workout A (Monday)',
+          exercises: [
+            {name:'Barbell Squat', muscle:'Quads, Glutes, Hamstrings', sets:'3', reps:'8–10'},
+            {name:'Bench Press', muscle:'Chest, Shoulders, Triceps', sets:'3', reps:'8–10'},
+            {name:'Bent-Over Row', muscle:'Back, Biceps, Rear Delts', sets:'3', reps:'8–10'},
+            {name:'Overhead Press', muscle:'Shoulders, Triceps', sets:'3', reps:'8–10'},
+            {name:'Romanian Deadlift', muscle:'Hamstrings, Glutes, Lower Back', sets:'3', reps:'10–12'},
+            {name:'Plank Hold', muscle:'Core', sets:'3', reps:'30–45 sec'}
+          ]
+        },
+        {
+          title: 'Full Body Workout B (Wednesday)',
+          exercises: [
+            {name:'Deadlift', muscle:'Full Posterior Chain', sets:'3', reps:'6–8'},
+            {name:'Dumbbell Incline Press', muscle:'Upper Chest, Shoulders', sets:'3', reps:'10–12'},
+            {name:'Pull-Ups / Lat Pulldown', muscle:'Back, Biceps', sets:'3', reps:'8–10'},
+            {name:'Dumbbell Lunges', muscle:'Quads, Glutes, Hamstrings', sets:'3', reps:'10 each leg'},
+            {name:'Lateral Raises', muscle:'Side Delts', sets:'3', reps:'12–15'},
+            {name:'Ab Wheel Rollout', muscle:'Core, Lats', sets:'3', reps:'8–12'}
+          ]
+        },
+        {
+          title: 'Full Body Workout C (Friday)',
+          exercises: [
+            {name:'Goblet Squat', muscle:'Quads, Glutes', sets:'3', reps:'10–12'},
+            {name:'Cable Row', muscle:'Mid Back, Biceps', sets:'3', reps:'10–12'},
+            {name:'Dumbbell Chest Fly', muscle:'Chest', sets:'3', reps:'12–15'},
+            {name:'Step-Ups', muscle:'Quads, Glutes, Hamstrings', sets:'3', reps:'10 each leg'},
+            {name:'Arnold Press', muscle:'All Three Delt Heads', sets:'3', reps:'10–12'},
+            {name:'Bicycle Crunches', muscle:'Core (Obliques)', sets:'3', reps:'20'}
+          ]
+        }
+      ]
+    },
+    upperlower: {
+      name: 'Upper / Lower Split', days: '4 Days / Week',
+      note: 'One of the most research-supported splits. Trains each muscle 2× per week with excellent balance of frequency and recovery. (ACSM & NSCA)',
+      schedule: [
+        {day:'Mon', focus:'Upper', active:true},
+        {day:'Tue', focus:'Lower', active:true},
+        {day:'Wed', focus:'Rest', active:false},
+        {day:'Thu', focus:'Upper', active:true},
+        {day:'Fri', focus:'Lower', active:true},
+        {day:'Sat', focus:'Rest', active:false},
+        {day:'Sun', focus:'Rest', active:false}
+      ],
+      workouts: [
+        {
+          title: 'Upper Body A (Monday) — Strength Focus',
+          exercises: [
+            {name:'Barbell Bench Press', muscle:'Chest, Triceps, Front Delts', sets:'4', reps:'5–8'},
+            {name:'Barbell Row', muscle:'Back, Biceps', sets:'4', reps:'5–8'},
+            {name:'Overhead Press', muscle:'Shoulders, Triceps', sets:'3', reps:'6–8'},
+            {name:'Weighted Pull-Ups', muscle:'Lats, Biceps', sets:'3', reps:'6–8'},
+            {name:'Incline Dumbbell Press', muscle:'Upper Chest', sets:'3', reps:'10–12'},
+            {name:'Face Pulls', muscle:'Rear Delts, External Rotators', sets:'3', reps:'15–20'}
+          ]
+        },
+        {
+          title: 'Lower Body A (Tuesday) — Strength Focus',
+          exercises: [
+            {name:'Barbell Squat', muscle:'Quads, Glutes, Hamstrings', sets:'4', reps:'5–8'},
+            {name:'Romanian Deadlift', muscle:'Hamstrings, Glutes, Lower Back', sets:'3', reps:'8–10'},
+            {name:'Leg Press', muscle:'Quads, Glutes', sets:'3', reps:'10–12'},
+            {name:'Walking Lunges', muscle:'Quads, Glutes', sets:'3', reps:'10 each'},
+            {name:'Calf Raises', muscle:'Gastrocnemius, Soleus', sets:'4', reps:'12–15'},
+            {name:'Hanging Leg Raises', muscle:'Core, Hip Flexors', sets:'3', reps:'12–15'}
+          ]
+        },
+        {
+          title: 'Upper Body B (Thursday) — Hypertrophy Focus',
+          exercises: [
+            {name:'Dumbbell Bench Press', muscle:'Chest, Triceps', sets:'4', reps:'10–12'},
+            {name:'Cable Row', muscle:'Mid Back, Biceps', sets:'4', reps:'10–12'},
+            {name:'Lateral Raises', muscle:'Side Delts', sets:'4', reps:'12–15'},
+            {name:'Lat Pulldown', muscle:'Lats, Biceps', sets:'3', reps:'10–12'},
+            {name:'Dumbbell Curls', muscle:'Biceps', sets:'3', reps:'12–15'},
+            {name:'Tricep Pushdowns', muscle:'Triceps', sets:'3', reps:'12–15'}
+          ]
+        },
+        {
+          title: 'Lower Body B (Friday) — Hypertrophy Focus',
+          exercises: [
+            {name:'Hack Squat', muscle:'Quads', sets:'4', reps:'10–12'},
+            {name:'Stiff-Leg Deadlift', muscle:'Hamstrings, Glutes', sets:'3', reps:'10–12'},
+            {name:'Leg Extension', muscle:'Quads (Isolation)', sets:'3', reps:'12–15'},
+            {name:'Leg Curl', muscle:'Hamstrings (Isolation)', sets:'3', reps:'12–15'},
+            {name:'Glute Bridge / Hip Thrust', muscle:'Glutes, Hamstrings', sets:'3', reps:'12–15'},
+            {name:'Cable Crunch', muscle:'Core', sets:'3', reps:'15–20'}
+          ]
+        }
+      ]
+    },
+    ppl: {
+      name: 'Push / Pull / Legs', days: '6 Days / Week',
+      note: 'Trains each muscle group 2× per week with high volume. Run the 3-day cycle twice per week, rest on Day 7. (ACSM & NSCA)',
+      schedule: [
+        {day:'Mon', focus:'Push', active:true},
+        {day:'Tue', focus:'Pull', active:true},
+        {day:'Wed', focus:'Legs', active:true},
+        {day:'Thu', focus:'Push', active:true},
+        {day:'Fri', focus:'Pull', active:true},
+        {day:'Sat', focus:'Legs', active:true},
+        {day:'Sun', focus:'Rest', active:false}
+      ],
+      workouts: [
+        {
+          title: 'Push Day (Chest, Shoulders, Triceps)',
+          exercises: [
+            {name:'Flat Barbell Bench Press', muscle:'Chest, Triceps, Front Delts', sets:'4', reps:'6–10'},
+            {name:'Incline Dumbbell Press', muscle:'Upper Chest', sets:'4', reps:'8–12'},
+            {name:'Overhead Press', muscle:'Shoulders, Triceps', sets:'3', reps:'8–10'},
+            {name:'Cable Chest Fly', muscle:'Chest (Isolation)', sets:'3', reps:'12–15'},
+            {name:'Lateral Raises', muscle:'Side Delts', sets:'4', reps:'12–15'},
+            {name:'Tricep Pushdowns', muscle:'Triceps (Isolation)', sets:'3', reps:'12–15'},
+            {name:'Overhead Tricep Extension', muscle:'Triceps Long Head', sets:'3', reps:'12–15'}
+          ]
+        },
+        {
+          title: 'Pull Day (Back, Biceps)',
+          exercises: [
+            {name:'Deadlift', muscle:'Full Posterior Chain', sets:'4', reps:'5–8'},
+            {name:'Pull-Ups', muscle:'Lats, Biceps', sets:'4', reps:'6–10'},
+            {name:'Barbell Row', muscle:'Mid Back, Rhomboids', sets:'4', reps:'8–10'},
+            {name:'Lat Pulldown', muscle:'Lats', sets:'3', reps:'10–12'},
+            {name:'Face Pulls', muscle:'Rear Delts, Rotator Cuff', sets:'3', reps:'15–20'},
+            {name:'Barbell Curl', muscle:'Biceps', sets:'3', reps:'10–12'},
+            {name:'Hammer Curls', muscle:'Biceps, Brachialis', sets:'3', reps:'12–15'}
+          ]
+        },
+        {
+          title: 'Leg Day (Quads, Hamstrings, Glutes, Calves)',
+          exercises: [
+            {name:'Barbell Squat', muscle:'Quads, Glutes, Hamstrings', sets:'4', reps:'6–10'},
+            {name:'Romanian Deadlift', muscle:'Hamstrings, Glutes', sets:'4', reps:'8–12'},
+            {name:'Leg Press', muscle:'Quads, Glutes', sets:'3', reps:'10–12'},
+            {name:'Walking Lunges', muscle:'Quads, Glutes', sets:'3', reps:'12 each'},
+            {name:'Leg Extension', muscle:'Quads (Isolation)', sets:'3', reps:'12–15'},
+            {name:'Leg Curl', muscle:'Hamstrings (Isolation)', sets:'3', reps:'12–15'},
+            {name:'Standing Calf Raise', muscle:'Gastrocnemius', sets:'4', reps:'12–15'}
+          ]
+        }
+      ]
+    },
+    brosplit: {
+      name: 'Body Part Split', days: '5 Days / Week',
+      note: 'Classic bodybuilding split with high per-session volume. Research (Schoenfeld 2016) suggests higher frequency splits may be more optimal, but this remains popular and effective with proper programming.',
+      schedule: [
+        {day:'Mon', focus:'Chest', active:true},
+        {day:'Tue', focus:'Back', active:true},
+        {day:'Wed', focus:'Legs', active:true},
+        {day:'Thu', focus:'Shoulders', active:true},
+        {day:'Fri', focus:'Arms', active:true},
+        {day:'Sat', focus:'Rest', active:false},
+        {day:'Sun', focus:'Rest', active:false}
+      ],
+      workouts: [
+        {
+          title: 'Monday — Chest',
+          exercises: [
+            {name:'Flat Barbell Bench Press', muscle:'Chest, Triceps', sets:'4', reps:'6–10'},
+            {name:'Incline Dumbbell Press', muscle:'Upper Chest', sets:'4', reps:'8–12'},
+            {name:'Decline Barbell Press', muscle:'Lower Chest', sets:'3', reps:'8–12'},
+            {name:'Cable Chest Fly', muscle:'Inner Chest', sets:'3', reps:'12–15'},
+            {name:'Chest Dips', muscle:'Lower Chest, Triceps', sets:'3', reps:'10–12'},
+            {name:'Push-Ups (weighted)', muscle:'Chest, Triceps, Core', sets:'3', reps:'15–20'}
+          ]
+        },
+        {
+          title: 'Tuesday — Back',
+          exercises: [
+            {name:'Deadlift', muscle:'Full Posterior Chain', sets:'4', reps:'5–8'},
+            {name:'Pull-Ups', muscle:'Lats, Biceps', sets:'4', reps:'6–10'},
+            {name:'Barbell Row', muscle:'Mid Back', sets:'4', reps:'8–10'},
+            {name:'Seated Cable Row', muscle:'Mid Back, Lats', sets:'3', reps:'10–12'},
+            {name:'Lat Pulldown', muscle:'Lats', sets:'3', reps:'10–12'},
+            {name:'Face Pulls', muscle:'Rear Delts, Rotator Cuff', sets:'3', reps:'15–20'}
+          ]
+        },
+        {
+          title: 'Wednesday — Legs',
+          exercises: [
+            {name:'Barbell Squat', muscle:'Quads, Glutes, Hamstrings', sets:'4', reps:'6–10'},
+            {name:'Romanian Deadlift', muscle:'Hamstrings, Glutes', sets:'4', reps:'8–12'},
+            {name:'Leg Press', muscle:'Quads, Glutes', sets:'4', reps:'10–12'},
+            {name:'Leg Extension', muscle:'Quads (Isolation)', sets:'3', reps:'12–15'},
+            {name:'Leg Curl', muscle:'Hamstrings (Isolation)', sets:'3', reps:'12–15'},
+            {name:'Standing Calf Raise', muscle:'Calves', sets:'4', reps:'12–15'}
+          ]
+        },
+        {
+          title: 'Thursday — Shoulders',
+          exercises: [
+            {name:'Overhead Barbell Press', muscle:'All Three Delt Heads', sets:'4', reps:'6–10'},
+            {name:'Dumbbell Lateral Raises', muscle:'Side Delts', sets:'4', reps:'12–15'},
+            {name:'Rear Delt Fly', muscle:'Rear Delts', sets:'4', reps:'12–15'},
+            {name:'Arnold Press', muscle:'All Delt Heads', sets:'3', reps:'10–12'},
+            {name:'Front Raises', muscle:'Front Delts', sets:'3', reps:'12–15'},
+            {name:'Barbell Shrugs', muscle:'Trapezius', sets:'3', reps:'12–15'}
+          ]
+        },
+        {
+          title: 'Friday — Arms',
+          exercises: [
+            {name:'Barbell Curl', muscle:'Biceps', sets:'4', reps:'8–12'},
+            {name:'Skull Crushers', muscle:'Triceps', sets:'4', reps:'8–12'},
+            {name:'Hammer Curls', muscle:'Biceps, Brachialis', sets:'3', reps:'10–12'},
+            {name:'Tricep Pushdowns', muscle:'Triceps', sets:'3', reps:'10–12'},
+            {name:'Incline Dumbbell Curl', muscle:'Biceps Long Head', sets:'3', reps:'12–15'},
+            {name:'Overhead Tricep Extension', muscle:'Triceps Long Head', sets:'3', reps:'12–15'}
+          ]
+        }
+      ]
+    }
+  };
+
+  // ===========================================================
+  // WORKOUT BUILDER
+  // ===========================================================
+
+  var currentSplit = null;
+
+
+  // PROCEDURE: selectSplit
+  // Called when the user clicks a split card.
+  // Highlights the selected card and renders the workout plan.
+  function selectSplit(splitKey) {
+    currentSplit = splitKey;
+
+    // Remove the highlight from all split option cards
+    var allSplitCards = document.querySelectorAll('.split-option');
+    for (var i = 0; i < allSplitCards.length; i++) {
+      allSplitCards[i].classList.remove('selected');
+    }
+
+    // Highlight the card that was clicked
+    event.currentTarget.classList.add('selected');
+
+    // Build and show the workout plan
+    renderWorkoutPlan(splitKey);
+  }
+
+
+  // PROCEDURE: renderWorkoutPlan
+  // Looks up the selected split in workoutSplits, then builds the
+  // weekly schedule grid and exercise tables using iteration.
+  function renderWorkoutPlan(key) {
+    var split   = workoutSplits[key];
+    var display = document.getElementById('workoutDisplay');
+
+    // Step 1: Build the weekly schedule row of day cards
+    var weekHTML = '<div class="week-grid">';
+    for (var i = 0; i < split.schedule.length; i++) {
+      var day = split.schedule[i];
+
+      // Selection: use different styling for training days vs rest days
+      if (day.active) {
+        weekHTML = weekHTML + '<div class="day-card active-day"><div class="day-name">' + day.day + '</div><div class="day-focus">' + day.focus + '</div></div>';
+      } else {
+        weekHTML = weekHTML + '<div class="day-card rest"><div class="day-name">' + day.day + '</div><div class="day-focus rest-text">' + day.focus + '</div></div>';
+      }
+    }
+    weekHTML = weekHTML + '</div>';
+
+    // Step 2: Build the science note box
+    var noteHTML = '<div class="note-box">ℹ️ ' + split.note + '</div>';
+
+    // Step 3: Build the exercise tables for each workout day
+    var workoutsHTML = '';
+
+    // Iteration: loop through each workout day in this split
+    for (var j = 0; j < split.workouts.length; j++) {
+      var workout = split.workouts[j];
+
+      // Build the rows of the exercise table
+      var tableRows = '';
+      for (var k = 0; k < workout.exercises.length; k++) {
+        var exercise = workout.exercises[k];
+        tableRows = tableRows +
+          '<tr>' +
+            '<td><div class="ex-name">' + exercise.name + '</div><div class="ex-muscle">' + exercise.muscle + '</div></td>' +
+            '<td><span class="sets-badge">' + exercise.sets + '</span></td>' +
+            '<td><span class="reps-badge">' + exercise.reps + '</span></td>' +
+          '</tr>';
+      }
+
+      workoutsHTML = workoutsHTML +
+        '<div class="exercises-section">' +
+          '<h3>' + workout.title + '</h3>' +
+          '<table class="exercise-table">' +
+            '<thead><tr><th>Exercise</th><th>Sets</th><th>Reps</th></tr></thead>' +
+            '<tbody>' + tableRows + '</tbody>' +
+          '</table>' +
+        '</div>';
+    }
+
+    // Step 4: Put it all together and display it
+    display.innerHTML =
+      '<div class="card" style="margin-bottom:24px;">' +
+        '<div class="card-label">📅 Weekly Schedule — ' + split.name + '</div>' +
+        weekHTML +
+        noteHTML +
+        workoutsHTML +
+      '</div>';
+
+    display.classList.add('visible');
+    display.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    showToast("💪 " + split.name + " loaded!");
+  }
+
+
+  // Run renderPlans when the page first loads so meal plan cards appear
+  renderPlans();
+
+</script>
+</body>
+</html>
